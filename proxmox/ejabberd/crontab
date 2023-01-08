@@ -1,0 +1,2 @@
+32 1 1 * * cat /etc/letsencrypt/live/example.tld/privkey.pem /etc/letsencrypt/live/example.tld/fullchain.pem > /etc/ejabberd/ejabberd.pem
+33 1 1 * * systemctl restart ejabberd.service
