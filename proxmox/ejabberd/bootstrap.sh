@@ -12,7 +12,7 @@ apt install -y ejabberd miniupnpc binutils postgresql-client
 
 # Download yq util to manage YAML config files
 cd /tmp
-export VERSION=v4.30.4
+export VERSION=v4.30.7
 export BINARY=yq_linux_amd64
 wget https://github.com/mikefarah/yq/releases/download/${VERSION}/${BINARY}.tar.gz -O - |  tar xz && mv ${BINARY}  yq
 strip yq
@@ -42,11 +42,19 @@ export mod_disco='{"modules": "all", "name": "abuse-addresses", "urls": "[\"mail
 ./yq -i '.modules.mod_pubsub.hosts[2] = "nsfw.@HOST@"' /etc/ejabberd/ejabberd.yml
 ./yq -i '.modules.mod_pubsub.hosts[3] = "lifestyle.@HOST@"' /etc/ejabberd/ejabberd.yml
 ./yq -i '.modules.mod_pubsub.hosts[3] = "blog.@HOST@"' /etc/ejabberd/ejabberd.yml
+./yq -i '.modules.mod_pubsub.hosts[4] = "comments.@HOST@"' /etc/ejabberd/ejabberd.yml
 ./yq -i '.default_db = "sql"' /etc/ejabberd/ejabberd.yml
 ./yq -i '.modules.mod_mam.default = "always"' /etc/ejabberd/ejabberd.yml
 ./yq -i '.modules.mod_proxy65 = {}' /etc/ejabberd/ejabberd.yml
 ./yq -i 'with(.modules.mod_disco.server_info; . |= env(mod_disco) | ... style="")' /etc/ejabberd/ejabberd.yml
-./yq -i 'with(.modules.mod_http_upload; . |= env(mod_http_upload) | ... style="")' /etc/ejabberd/ejabberd.yml 
+./yq -i 'with(.modules.mod_http_upload; . |= env(mod_http_upload) | ... style="")' /etc/ejabberd/ejabberd.yml
+
+./yq -i '.modules.mod_pubsub.access_createnode = "local"' /etc/ejabberd/ejabberd.yml
+./yq -i '.modules.mod_pubsub.last_item_cache = false' /etc/ejabberd/ejabberd.yml
+./yq -i '.modules.mod_pubsub.max_items_node = 10000' /etc/ejabberd/ejabberd.yml
+./yq -i  '.modules.mod_pubsub.default_node_config[0].max_items = 10000' /etc/ejabberd/ejabberd.yml
+./yq -i '.modules.mod_pubsub.ignore_pep_from_offline = false' /etc/ejabberd/ejabberd.yml
+
 # Known bug: max_size must be integer, fix it by hand TODO fix
 chown ejabberd. /etc/ejabberd/ejabberd.yml  # bug, yq changes the rights to root
 

@@ -13,7 +13,7 @@ resource "proxmox_lxc" "ejabberd" {
   connection {
     type                = "ssh"
     user                = "root"
-    host                = "10.10.10.102"
+    host                = "10.10.10.1"
     private_key         = file("~/.ssh/id_rsa")
     bastion_host        = var.bastion_host
     bastion_user        = var.bastion_user
@@ -54,7 +54,7 @@ resource "proxmox_lxc" "ejabberd" {
     name   = "eth0"
     bridge = "vmbr1"
     ip     = "10.10.10.102/8"
-    gw     = "10.0.1.1"
+    gw     = var.default_gw
   }
 }
 

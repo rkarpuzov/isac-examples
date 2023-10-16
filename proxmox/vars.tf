@@ -36,3 +36,9 @@ ssh-rsa AAAA< user's id_ras.pub key. located in your ~/.ssh/id_rsa.pub= user@myl
 ssh-rsa AAAA< second user's pub key. Every user must be on new line  == user2@desktop
 EOT
 }
+
+variable "default_gw" {
+  description = "Root access via ssh pub key"
+  type = string
+  default = "10.10.10.1"
+}
